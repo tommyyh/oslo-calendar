@@ -1,0 +1,28 @@
+.calendar {
+  width: 400px;
+  
+  border-top: var(--border);
+  border-left: var(--border);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.weeks {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.currentMonth {
+  grid-column: span 3 / span 3;
+}
+
+.changeMonth {
+  grid-column: span 2 / span 2;
+}

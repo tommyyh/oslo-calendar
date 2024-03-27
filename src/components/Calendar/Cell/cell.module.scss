@@ -1,0 +1,35 @@
+// file.scss
+.cellBase {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  height: 2.5rem;
+  
+  user-select: none;
+  transition: colors 200ms;
+  border-bottom: var(--border);
+  border-right: var(--border);
+}
+
+.cursorPointer {
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f3f4f6;
+  }
+
+  &:active {
+    background-color: #e5e7eb;
+  }
+}
+
+.isActive {
+  font-weight: bold;
+  color: white;
+  background-color: #2563eb;
+}
+
+.disabled {
+  color: rgb(0, 0, 0, 0.3);
+}
