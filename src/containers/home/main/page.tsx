@@ -6,7 +6,6 @@ import Calendar from '@/components/Calendar/Calendar';
 import { add } from 'date-fns';
 import timesJson from '@/data/times.json';
 import { v4 } from 'uuid';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import logoPng from '@/public/logo.png';
 import Menu from '@/containers/menu/main/page';
@@ -26,10 +25,16 @@ const Main = () => {
   const [selectedDate, setSelectedDate] = useState(
     add(firstAvailableDate, { days: 1 })
   );
-  const { push } = useRouter();
+  const [info, setInfo] = useState({
+    date: '',
+    time: '',
+    addedItems: [],
+  });
 
   // Get the end of November
   const lastAvailableDate = convertToDate({ year: 2024, month: 12, day: 1 });
+
+  console.log(info);
 
   useEffect(() => {
     setTimesLoading(true);
@@ -53,15 +58,14 @@ const Main = () => {
   }, [selectedDate]);
 
   // Choose time
-
   const chooseTime = (time: string) => {
-    localStorage.setItem('time', time);
-    localStorage.setItem(
-      'date',
-      `${selectedDate.getDate()}.${
+    setInfo({
+      ...info,
+      time,
+      date: `${selectedDate.getDate()}.${
         selectedDate.getMonth() + 1
-      }.${selectedDate.getFullYear()}`
-    );
+      }.${selectedDate.getFullYear()}`,
+    });
 
     setFormStage(2);
   };
@@ -71,7 +75,13 @@ const Main = () => {
       <div className={style.nav}>
         <div>
           <div className={style.logo}>
-            <Image src={logoPng} fill alt="Oslo Yacht Charter" sizes="100vw" />
+            <Image
+              src={logoPng}
+              fill
+              alt="Oslo Yacht Charter"
+              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
           </div>
 
           <h5>Reservasjon</h5>
@@ -129,7 +139,9 @@ const Main = () => {
         )}
 
         {/* Stage 2 */}
-        {formStage === 2 && <Menu />}
+        {formStage === 2 && (
+          <Menu setInfo={setInfo} info={info} setFormStage={setFormStage} />
+        )}
       </div>
     </main>
   );

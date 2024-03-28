@@ -192,7 +192,12 @@ $height: 33rem;
     list-style-type: none;
 
     button {
-      padding: 0.62rem 1.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      width: 6rem;
+      height: 2.815rem;
       margin: 0.3rem;
 
       font-size: 1rem;

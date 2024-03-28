@@ -11,7 +11,7 @@
 
 .continue {
   right: calc(var(--padding) + 3.98rem);
-  margin: -0.8rem 0 0 0;
+  margin: -4.8rem 0 0 0;
   position: absolute;
 
   button {
@@ -29,5 +29,20 @@
     &:hover {
       background: #5a9eff;
     }
+  }
+}
+
+// GO back
+.goBack {
+  margin: 2.5rem 0 0 0;
+
+  font-size: 1rem;
+  font-weight: 400;
+  text-decoration: underline;
+  cursor: pointer;
+
+  svg {
+    margin: 0 0.5rem -0.085rem 0;
+    width: 0.5rem;
   }
 }
