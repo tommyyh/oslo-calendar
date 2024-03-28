@@ -1,12 +1,213 @@
-// .main {
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-
-//   width: 100%;
-//   height: 100vh;
-// }
+$height: 33rem;
 
 .main {
-  margin: 5rem;
+  display: grid;
+  grid-template-columns: 32% 68%;
+  
+  width: 64.5rem;
+  min-height: $height;
+  max-height: $height;
+  padding: 0 0 0 var(--padding);
+
+  box-shadow: 0 0.25rem 8.125rem rgb(0, 0, 0, 0.18);
+  border-radius: 0.39rem;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: var(--padding) 0;
+
+  border-right: 0.0625rem solid #D9D9D9;
+
+  h5 {
+    margin: 1.75rem 0 0 0;
+
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--accent1);
+  }
+
+  h1 {
+    margin: 0.19rem 10% 0 0;
+
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--second);
+    line-height: 118%;
+    letter-spacing: -0.08rem;
+  }
+  
+  // Logo
+  .logo {
+    width: 7.13rem;
+    height: 2.38rem;
+    position: relative;
+  }
+
+  // Steps
+  ul {
+    // max-height: 7.6rem;
+    // overflow-y: auto
+
+    margin: 1.58rem 0.7rem 0 0;
+
+    li {
+      margin: 0.5rem 0 0 0;
+      
+      list-style-type: none;
+      font-size: 0.85rem;
+      color: rgb(0, 0, 0, 0.4);
+      cursor: default;
+
+      &[data-active='true'] {
+        color: var(--accent4);
+        font-weight: 500;
+      }
+    }
+
+    /* width */
+    &::-webkit-scrollbar {
+      width: 0.4rem;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1; 
+    }
+    
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: #c2c2c2; 
+      border-radius: 50rem;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: #9f9f9f; 
+    }
+  }
+}
+
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+
+  a {
+    width: fit-content;
+    margin: 0 0 0.3rem 0;
+
+    font-size: 0.83rem;
+    text-decoration: none;
+    color: #666666;
+
+    &:last-child {
+      margin: initial;
+    }
+
+    &:hover {
+      color: var(--accent1);
+      text-decoration: underline;
+    }
+  }
+}
+
+
+
+
+// Calendar - right side
+.cont {
+  justify-content: space-between;
+  max-height: $height;
+  overflow-y: auto;
+
+  position: relative;
+  padding: var(--padding);
+
+  /* width */
+  &::-webkit-scrollbar {
+    width: 0.4rem;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+  
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #c2c2c2; 
+    border-radius: 50rem;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #9f9f9f; 
+  }
+}
+
+// First stage
+.cont1 {
+  display: grid;
+  grid-template-columns: 56% 44%;
+
+  padding: var(--padding) var(--padding) var(--padding) calc(var(--padding) - 0.7rem);
+}
+
+
+
+
+// Times
+.times {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 50% 50%);
+  margin: 0 0 0 2rem;
+  max-height: calc($height - var(--padding) * 2);
+  overflow-y: scroll;
+
+  /* width */
+  &::-webkit-scrollbar {
+    width: 0.4rem;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+  
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #c2c2c2; 
+    border-radius: 50rem;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #9f9f9f; 
+  }
+
+  li {
+    list-style-type: none;
+
+    button {
+      padding: 0.62rem 1.9rem;
+      margin: 0.3rem;
+
+      font-size: 1rem;
+      cursor: pointer;
+      background: transparent;
+      border: 0.0625rem solid var(--accent2);
+      border-radius: 0.3rem;
+      color: var(--accent2);
+      font-weight: 600;
+      transition: 210ms ease;
+
+      &:hover {
+        background: var(--accent2);
+        color: #fff;
+      }
+    }
+  }
 }

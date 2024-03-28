@@ -4,19 +4,18 @@
   align-items: center;
   justify-content: center;
   
-  height: 2.5rem;
+  height: 2.85rem;
   
   user-select: none;
-  transition: colors 200ms;
-  border-bottom: var(--border);
-  border-right: var(--border);
+  transition: 140ms ease;
+  border-radius: 0.2rem;
 }
 
 .cursorPointer {
   cursor: pointer;
 
   &:hover {
-    background-color: #f3f4f6;
+    background-color: #e9eaee;
   }
 
   &:active {
@@ -25,9 +24,10 @@
 }
 
 .isActive {
-  font-weight: bold;
   color: white;
-  background-color: #2563eb;
+  background-color: var(--accent1);
+
+  cursor: pointer;
 }
 
 .disabled {

@@ -5,5 +5,28 @@
 }
 
 :root {
-  --border: 0.0625rem solid #E5E7EB;
+  --primary: #fff;
+  --second: #000;
+  --accent1: #0F1939;
+  --accent2: #b69646;
+  --accent3: #D9D5CB;
+  --accent4: #0069FF;
+
+  --border: 0.0625rem solid #eceef2;
+
+  --padding: 2.4rem;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100vh;
+}
+
+button, input, select {
+  font-family: inherit;
 }

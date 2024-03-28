@@ -1,0 +1,33 @@
+.main {
+  position: relative;
+
+  h1 {
+    margin: 0 0 -1.5rem 0;
+
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+}
+
+.continue {
+  right: calc(var(--padding) + 3.98rem);
+  margin: -0.8rem 0 0 0;
+  position: absolute;
+
+  button {
+    position: fixed;
+    padding: 0.52rem 1.55rem;
+  
+    font-size: 0.89rem;
+    border-radius: 0.25rem;
+    border: none;
+    background: var(--accent4);
+    cursor: pointer;
+    color: #fff;
+    transition: 300ms ease;
+
+    &:hover {
+      background: #5a9eff;
+    }
+  }
+}
