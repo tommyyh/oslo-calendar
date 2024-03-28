@@ -9,6 +9,8 @@ import { v4 } from 'uuid';
 import Image from 'next/image';
 import logoPng from '@/public/logo.png';
 import Menu from '@/containers/menu/main/page';
+import Form from '@/containers/form/page';
+import Checkout from '@/containers/checkout/page';
 
 const convertToDate = ({ day, month, year }: any) => {
   return new Date(year, month - 1, day);
@@ -16,7 +18,7 @@ const convertToDate = ({ day, month, year }: any) => {
 
 const Main = () => {
   // Calculate tomorrow's date
-  const firstAvailableDate = add(new Date(), { days: 1 });
+  const firstAvailableDate = add(new Date(), { days: 0 });
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [timesLoading, setTimesLoading] = useState(true);
@@ -26,6 +28,14 @@ const Main = () => {
     add(firstAvailableDate, { days: 1 })
   );
   const [info, setInfo] = useState({
+    name: '',
+    email: '',
+    tel: '',
+    msg: '',
+    type: 'private',
+    people: '1',
+    length: '3',
+
     date: '',
     time: '',
     addedItems: [],
@@ -142,6 +152,14 @@ const Main = () => {
         {formStage === 2 && (
           <Menu setInfo={setInfo} info={info} setFormStage={setFormStage} />
         )}
+
+        {/* Stage 3 */}
+        {formStage === 3 && (
+          <Form setInfo={setInfo} info={info} setFormStage={setFormStage} />
+        )}
+
+        {/* Stage 4 */}
+        {formStage === 4 && <Checkout />}
       </div>
     </main>
   );
