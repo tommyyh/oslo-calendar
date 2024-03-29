@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from './form.module.scss';
+import GoBack from '@/components/GoBack/GoBack';
+import times from '@/data/times.json';
+import { useRouter } from 'next/navigation';
 
 type PropsType = {
   setInfo: any;
@@ -7,8 +10,31 @@ type PropsType = {
   setFormStage: any;
 };
 
+const validateEmail = (email: string) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+
 const Form = ({ setInfo, info, setFormStage }: PropsType) => {
   const [error, setError] = useState('');
+  const [special, setSpecial] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { push } = useRouter();
+
+  // Check if its a special day
+  useEffect(() => {
+    const specialDays = times.specialDays;
+    const isSpecial = specialDays.find((x) => x === info.date);
+
+    if (!isSpecial) {
+      setSpecial(false);
+    } else {
+      setSpecial(true);
+    }
+  }, []);
 
   const onChange = (e: any) => {
     const value = e.target.value;
@@ -17,27 +43,55 @@ const Form = ({ setInfo, info, setFormStage }: PropsType) => {
     setInfo({ ...info, [name]: value });
   };
 
-  // Go to checkout
-  const goToCheckout = () => {
+  // Submit
+  const goToCheckout = async () => {
+    setLoading(true);
+
     const { name, email, tel } = info;
 
     if (!name || !email || !tel) {
-      return setError('Vennligst fyll ut alle feltene med en *.');
+      setLoading(false);
+      return setError('Vennligst skriv inn alle feltene med en *.');
+    }
+    if (!validateEmail(email)) {
+      setLoading(false);
+      return setError('Vennligst skriv inn en gyldig e-postadresse');
     }
 
-    // Continue to finish
-    setFormStage(4);
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(info),
+      });
+
+      const data = await res.json();
+
+      if (data.status === 'success') {
+        return push('/checkout');
+      } else {
+        setError('Noe gikk galt, prøv igjen eller kontakt oss.');
+      }
+    } catch (e) {
+      setError('Noe gikk galt, prøv igjen eller kontakt oss.');
+    }
+
+    setLoading(false);
   };
 
   return (
     <main className={style.form}>
+      <GoBack onClick={() => setFormStage(2)} />
+
       <div className={style.forms}>
         <div className={style.personal}>
           <h2>Dine opplysninger</h2>
 
           {/* Name */}
           <div className={style.input}>
-            <label htmlFor="name">Navn*</label>
+            <label htmlFor="name">Navn *</label>
 
             <div>
               <input
@@ -53,7 +107,7 @@ const Form = ({ setInfo, info, setFormStage }: PropsType) => {
 
           {/* Email */}
           <div className={style.input}>
-            <label htmlFor="email">E-post*</label>
+            <label htmlFor="email">E-post *</label>
 
             <div>
               <input
@@ -69,7 +123,7 @@ const Form = ({ setInfo, info, setFormStage }: PropsType) => {
 
           {/* Phone number */}
           <div className={style.input}>
-            <label htmlFor="tel">Telefonnummer*</label>
+            <label htmlFor="tel">Telefonnummer *</label>
 
             <div>
               <input
@@ -102,26 +156,52 @@ const Form = ({ setInfo, info, setFormStage }: PropsType) => {
         <div className={style.trip}>
           <h2>Detaljer om reisen</h2>
 
-          {/* Type of trip */}
+          {/* Trip destination */}
           <div className={style.input}>
-            <label htmlFor="type">Type reise*</label>
+            <label htmlFor="destination">Reiserute *</label>
 
             <div>
               <select
-                name="type"
-                id="type"
+                name="destination"
+                id="destination"
                 onChange={(e) => onChange(e)}
-                value={info.type}
+                value={info.destination}
               >
-                <option value="public">Offentlig</option>
-                <option value="private">Privat</option>
+                <option value="Bygdøy">Bygdøy</option>
+                <option value="Dyna Fyr">Dyna Fyr</option>
+                <option value="Hovedøya">Hovedøya</option>
+                <option value="Kjeholmen">Kjeholmen</option>
+                <option value="Oscarsborg">Oscarsborg</option>
+                <option value="Oslofjorden">Oslofjorden</option>
+                <option value="Villa Malla">Villa Malla</option>
+                <option value="Middagsbukta">Middagsbukta</option>
+                <option value="Din drømmedag">Din drømmedag</option>
               </select>
             </div>
           </div>
 
+          {/* Type of trip */}
+          {special && (
+            <div className={style.input}>
+              <label htmlFor="type">Type reise *</label>
+
+              <div>
+                <select
+                  name="type"
+                  id="type"
+                  onChange={(e) => onChange(e)}
+                  value={info.type}
+                >
+                  <option value="public">Offentlig</option>
+                  <option value="private">Privat</option>
+                </select>
+              </div>
+            </div>
+          )}
+
           {/* Number of people */}
           <div className={style.input}>
-            <label htmlFor="people">Antall personer*</label>
+            <label htmlFor="people">Antall personer *</label>
 
             <div>
               <select
@@ -141,7 +221,7 @@ const Form = ({ setInfo, info, setFormStage }: PropsType) => {
 
           {/* Duration */}
           <div className={style.input}>
-            <label htmlFor="length">Reiselengde*</label>
+            <label htmlFor="length">Reiselengde *</label>
 
             <div>
               <select
@@ -158,8 +238,14 @@ const Form = ({ setInfo, info, setFormStage }: PropsType) => {
           </div>
         </div>
 
-        <button onClick={goToCheckout}>Gå til kassen</button>
-        {error && <p>{error}</p>}
+        {error && <p className={style.error}>{error}</p>}
+        <button
+          onClick={goToCheckout}
+          disabled={loading}
+          style={loading ? { cursor: 'not-allowed', opacity: '0.5' } : {}}
+        >
+          {loading ? 'Bearbeiding...' : 'Gå til kassen'}
+        </button>
 
         {/* End */}
       </div>

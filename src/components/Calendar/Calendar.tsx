@@ -21,6 +21,7 @@ type Props = {
   setSelectedDate: (date: Date) => void;
   firstAvailableDate: Date;
   lastAvailableDate: Date;
+  info: any;
 };
 
 const Calendar: React.FC<Props> = ({
@@ -30,6 +31,7 @@ const Calendar: React.FC<Props> = ({
   setSelectedDate,
   firstAvailableDate,
   lastAvailableDate,
+  info,
 }) => {
   const startDate = startOfMonth(value);
   const endDate = endOfMonth(value);
@@ -96,6 +98,12 @@ const Calendar: React.FC<Props> = ({
           <Cell key={index} />
         ))}
       </div>
+
+      {info?.date && info?.time && (
+        <h5>
+          Selected date: {info.date}, {info.time}
+        </h5>
+      )}
     </div>
   );
 };

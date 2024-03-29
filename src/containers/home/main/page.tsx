@@ -6,11 +6,10 @@ import Calendar from '@/components/Calendar/Calendar';
 import { add } from 'date-fns';
 import timesJson from '@/data/times.json';
 import { v4 } from 'uuid';
-import Image from 'next/image';
-import logoPng from '@/public/logo.png';
 import Menu from '@/containers/menu/main/page';
 import Form from '@/containers/form/page';
-import Checkout from '@/containers/checkout/page';
+import Nav from '@/components/Nav/Nav';
+import Loading from '@/components/Loading/Loading';
 
 const convertToDate = ({ day, month, year }: any) => {
   return new Date(year, month - 1, day);
@@ -22,7 +21,7 @@ const Main = () => {
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [timesLoading, setTimesLoading] = useState(true);
-  const [formStage, setFormStage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
   const [selectedDate, setSelectedDate] = useState(
     add(firstAvailableDate, { days: 1 })
@@ -35,16 +34,20 @@ const Main = () => {
     type: 'private',
     people: '1',
     length: '3',
+    destination: 'Bygdøy',
 
     date: '',
     time: '',
     addedItems: [],
+    stage: 1,
   });
+
+  const setFormStage = (stage: number) => {
+    setInfo({ ...info, stage });
+  };
 
   // Get the end of November
   const lastAvailableDate = convertToDate({ year: 2024, month: 12, day: 1 });
-
-  console.log(info);
 
   useEffect(() => {
     setTimesLoading(true);
@@ -67,6 +70,46 @@ const Main = () => {
     setTimesLoading(false);
   }, [selectedDate]);
 
+  // Save user data in case of refresh
+  useEffect(() => {
+    const infoFromStorage = localStorage.getItem('info');
+
+    if (!infoFromStorage) {
+      localStorage.setItem('info', JSON.stringify(info));
+    } else {
+      const savedData = JSON.parse(infoFromStorage);
+      const { name, email, tel, date, time, stage } = info;
+
+      if (!name && !email && !tel && !date && !time) return;
+
+      // Keep the stage highest even if returning
+      if (stage < savedData?.stage) {
+        let newData = savedData;
+        newData.stage = !savedData?.stage ? 1 : savedData?.stage;
+
+        localStorage.setItem('info', JSON.stringify(newData));
+      } else {
+        localStorage.setItem('info', JSON.stringify(info));
+      }
+    }
+  }, [info]);
+
+  // Load data
+  useEffect(() => {
+    setLoading(true);
+
+    const infoFromStorage = localStorage.getItem('info');
+
+    if (!infoFromStorage) return;
+
+    const savedData = JSON.parse(infoFromStorage);
+
+    if (!savedData) return;
+
+    setInfo(savedData);
+    setLoading(false);
+  }, []);
+
   // Choose time
   const chooseTime = (time: string) => {
     setInfo({
@@ -75,91 +118,54 @@ const Main = () => {
       date: `${selectedDate.getDate()}.${
         selectedDate.getMonth() + 1
       }.${selectedDate.getFullYear()}`,
+      stage: 2,
     });
-
-    setFormStage(2);
   };
 
   return (
     <main className={style.main}>
-      <div className={style.nav}>
-        <div>
-          <div className={style.logo}>
-            <Image
-              src={logoPng}
-              fill
-              alt="Oslo Yacht Charter"
-              priority
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          </div>
+      <Nav formStage={info.stage} />
 
-          <h5>Reservasjon</h5>
-          <h1>Bestill en fantastisk yachttur i Norge</h1>
-
-          <ul>
-            <li data-active={formStage === 1 ? 'true' : 'false'}>
-              1, Velg dato og klokkeslett
-            </li>
-            <li data-active={formStage === 2 ? 'true' : 'false'}>
-              2, Velg drikkevarer og forretter
-            </li>
-            <li data-active={formStage === 3 ? 'true' : 'false'}>
-              3, Fyll ut informasjon om deg og reisen
-            </li>
-            <li data-active={formStage === 4 ? 'true' : 'false'}>4, Kasse</li>
-            <li data-active={formStage === 5 ? 'true' : 'false'}>
-              5, Kos deg med båtturen!
-            </li>
-          </ul>
-        </div>
-
-        <div className={style.contactInfo}>
-          <a href="mailto:arild@oceanadventureyachting.no">
-            arild@oceanadventureyachting.no
-          </a>
-          <a href="tel:+4793037700">Tel: (+47) 93 03 77 00</a>
-        </div>
-      </div>
-
-      <div className={`${style.cont} ${formStage === 1 ? style.cont1 : ''}`}>
-        {/* Stage 1 */}
-        {formStage === 1 && (
+      <div className={`${style.cont} ${info.stage === 1 ? style.cont1 : ''}`}>
+        {loading ? (
+          <Loading />
+        ) : (
           <>
-            <Calendar
-              value={currentDate}
-              onChange={setCurrentDate}
-              selectedDate={selectedDate}
-              setSelectedDate={setSelectedDate}
-              firstAvailableDate={firstAvailableDate}
-              lastAvailableDate={lastAvailableDate}
-            />
-            {!timesLoading ? (
-              <ul className={style.times}>
-                {availableTimes.map((x) => (
-                  <li key={v4()}>
-                    <button onClick={() => chooseTime(x)}>{x}</button>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>Loading...</p>
+            {/* Stage 1 */}
+            {info.stage === 1 && (
+              <>
+                <Calendar
+                  value={currentDate}
+                  onChange={setCurrentDate}
+                  selectedDate={selectedDate}
+                  setSelectedDate={setSelectedDate}
+                  firstAvailableDate={firstAvailableDate}
+                  lastAvailableDate={lastAvailableDate}
+                  info={info}
+                />
+                {!timesLoading ? (
+                  <ul className={style.times}>
+                    {availableTimes.map((x) => (
+                      <li key={v4()}>
+                        <button onClick={() => chooseTime(x)}>{x}</button>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <Loading />
+                )}
+              </>
+            )}
+            {/* Stage 2 */}
+            {info.stage === 2 && (
+              <Menu setInfo={setInfo} info={info} setFormStage={setFormStage} />
+            )}
+            {/* Stage 3 */}
+            {info.stage === 3 && (
+              <Form setInfo={setInfo} info={info} setFormStage={setFormStage} />
             )}
           </>
         )}
-
-        {/* Stage 2 */}
-        {formStage === 2 && (
-          <Menu setInfo={setInfo} info={info} setFormStage={setFormStage} />
-        )}
-
-        {/* Stage 3 */}
-        {formStage === 3 && (
-          <Form setInfo={setInfo} info={info} setFormStage={setFormStage} />
-        )}
-
-        {/* Stage 4 */}
-        {formStage === 4 && <Checkout />}
       </div>
     </main>
   );

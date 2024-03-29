@@ -1,0 +1,78 @@
+$height: 33rem;
+
+.main {
+  display: grid;
+  grid-template-columns: 32% 68%;
+  
+  width: 64.5rem;
+  min-height: $height;
+  max-height: $height;
+  padding: 0 0 0 var(--padding);
+
+  box-shadow: 0 0.25rem 8.125rem rgb(0, 0, 0, 0.18);
+  border-radius: 0.39rem;
+}
+
+
+
+.right {
+  overflow-y: scroll;
+  padding: var(--padding);
+
+  h1 {
+    font-size: 1.65rem;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0.5rem 0 2rem 0;
+
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  h5 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--accent4);
+  }
+
+  /* width */
+  &::-webkit-scrollbar {
+    width: 0.4rem;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+  
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #c2c2c2; 
+    border-radius: 50rem;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #9f9f9f; 
+  }
+}
+
+
+// Go back
+.goBack {
+  width: fit-content;
+
+  font-size: 1rem;
+  font-weight: 400;
+  text-decoration: underline;
+  cursor: pointer;
+  color: var(--second);
+
+  svg {
+    margin: 0 0.5rem -0.05rem 0;
+    width: 0.5rem;
+  }
+}

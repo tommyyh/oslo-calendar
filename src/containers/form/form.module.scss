@@ -1,3 +1,111 @@
-.form {
+.forms {
+  margin: 2.8rem 0 0 0;
+  
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
 
+  button {
+    margin: 2rem 0 0 0;
+    height: 2.39rem;
+    padding: 0.6rem 1.5rem;
+
+    background: var(--accent4);
+    border: none;
+    border-radius: 0.4rem;
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 300ms ease;
+
+    &:hover {
+      background: #4090ff;
+    }
+  }
+}
+
+.trip {
+  margin: 3rem 0 0 0;
+}
+
+// input
+.input {
+  margin: 0.7rem 0 0 0;
+
+  label {
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
+
+  input {
+    margin: 0.25rem 0 0 0;
+    
+    width: 25.5rem;
+    height: 2.39rem;
+    padding: 0 0.9rem;
+
+    border-radius: 0.4rem;
+    border: 0.06rem solid #b6b6b6;
+    font-size: 0.8rem;
+    color: #000000;
+    
+    &:focus {
+      border-color: transparent;
+      outline: 0.12rem solid var(--accent4);
+    }
+
+    &::placeholder {
+      color: #cccccc;
+    }
+  }
+  
+  textarea {
+    margin: 0.25rem 0 0 0;
+    
+    width: 25.5rem;
+    height: 6rem;
+    padding: 0.65rem 0.9rem;
+    
+    border-radius: 0.4rem;
+    border: 0.06rem solid #b6b6b6;
+    resize: none;
+    font-size: 0.8rem;
+    color: #000000;
+    outline: var(--accent4);
+
+    &:focus {
+      border-color: transparent;
+      outline: 0.12rem solid var(--accent4);
+    }
+
+    &::placeholder {
+      color: #cccccc;
+    }
+  }
+
+  select {
+    margin: 0.25rem 0 0 0;
+    
+    width: 25.5rem;
+    height: 2.39rem;
+    padding: 0 0.6rem;
+    
+    border-radius: 0.4rem;
+    border: 0.06rem solid #b6b6b6;
+    resize: none;
+    font-size: 0.8rem;
+    color: #000000;
+    outline: var(--accent4);
+
+    &:focus {
+      border-color: transparent;
+      outline: 0.12rem solid var(--accent4);
+    }
+  }
+}
+
+.error {
+  margin: 1rem 0 0 0;
+  color: var(--error);
 }

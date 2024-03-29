@@ -10,6 +10,7 @@ import Menu5 from '@/public/menu/5.jpg';
 import Menu6 from '@/public/menu/6.jpg';
 import Menu7 from '@/public/menu/7.jpg';
 import Menu8 from '@/public/menu/8.jpg';
+import GoBack from '@/components/GoBack/GoBack';
 
 type PropsType = {
   setInfo: any;
@@ -102,12 +103,19 @@ const Main = ({ setInfo, info, setFormStage }: PropsType) => {
   return (
     <main className={style.main}>
       <h1>Velg drikkevarer og forretter</h1>
-      <h6 className={style.goBack} onClick={() => setFormStage(1)}>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-          <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
-        </svg>
-        Tilbake
-      </h6>
+
+      <div className={style.goBack}>
+        <GoBack onClick={() => setFormStage(1)} />
+      </div>
+
+      {info.addedItems[0] && (
+        <button
+          className={style.clearBtn}
+          onClick={() => setInfo({ ...info, addedItems: [] })}
+        >
+          Fjern valg
+        </button>
+      )}
 
       <div className={style.continue}>
         <button onClick={() => setFormStage(3)}>Fortsett</button>

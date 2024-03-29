@@ -1,0 +1,162 @@
+{
+  "prices": [
+    {
+      "title": "Jordbær i boller",
+      "price": "45"
+    },
+    {
+      "title": "Grønnsaks- eller Fruktanretning",
+      "price": "85"
+    },
+    {
+      "title": "Snitter",
+      "price": "66"
+    },
+    {
+      "title": "Rekebuffet",
+      "price": "289"
+    },
+    {
+      "title": "Seafood de luxe (min 8 pers)",
+      "price": "565"
+    },
+    {
+      "title": "Tapas (min 8 pers)",
+      "price": "529"
+    },
+    {
+      "title": "Spekefat de luxe (min 8 pers)",
+      "price": "395"
+    },
+    {
+      "title": "Koldtbord Executive (min 8 pers)",
+      "price": "375"
+    },
+    {
+      "title": "Baguetter / Wraps",
+      "price": "89"
+    },
+    {
+      "title": "Friske jordbær med fløte og sukker",
+      "price": "89"
+    },
+    {
+      "title": "Skogsbærkake m/friske bær, porsjonert",
+      "price": "70"
+    },
+    {
+      "title": "Frukttartelett m/vaniljekrem",
+      "price": "60"
+    },
+    {
+      "title": "Soave Classico Superior Cesari-Husets",
+      "price": "295"
+    },
+    {
+      "title": "Petit Bourgeoise Sauvignon",
+      "price": "430"
+    },
+    {
+      "title": "William Fevre Petit Chablis",
+      "price": "410"
+    },
+    {
+      "title": "Finca Constancia-Husets",
+      "price": "265"
+    },
+    {
+      "title": "Beronia Reserva 2007",
+      "price": "375"
+    },
+    {
+      "title": "Cesari Mara Ripasso Valpolicella",
+      "price": "339"
+    },
+    {
+      "title": "Côtes du Rhône parallèle 45",
+      "price": "325"
+    },
+    {
+      "title": "Prosecco Spumante Pizzolato",
+      "price": "410"
+    },
+    {
+      "title": "Vilarnau Brut Cava",
+      "price": "410"
+    },
+    {
+      "title": "Champagne Moët Ice",
+      "price": "980"
+    },
+    {
+      "title": "Kapteinens velkomstdrink",
+      "price": "45"
+    },
+    {
+      "title": "Thor Heyerdahl XO",
+      "price": "78"
+    },
+    {
+      "title": "Carolans Irish Cream",
+      "price": "45"
+    },
+    {
+      "title": "Jägermeister",
+      "price": "65"
+    },
+    {
+      "title": "Kaffe m/fløte og sukker",
+      "price": "32"
+    },
+    {
+      "title": "Ringnes fatpils tappet 0,3 ltr",
+      "price": "48"
+    },
+    {
+      "title": "Clausthaler",
+      "price": "38"
+    },
+    {
+      "title": "Assortert mineralvann (inkl. ombord)",
+      "price": "0"
+    }
+  ],
+  "trips": [
+    {
+      "title": "Bygdøy",
+      "price": "13000"
+    },
+    {
+      "title": "Dyna Fyr",
+      "price": "13000"
+    },
+    {
+      "title": "Hovedøya",
+      "price": "13000"
+    },
+    {
+      "title": "Kjeholmen",
+      "price": "13000"
+    },
+    {
+      "title": "Oscarsborg",
+      "price": "13000"
+    },
+    {
+      "title": "Oslofjorden",
+      "price": "13000"
+    },
+    {
+      "title": "Villa Malla",
+      "price": "13000"
+    },
+    {
+      "title": "Middagsbukta",
+      "price": "13000"
+    },
+    {
+      "title": "drømmedag",
+      "price": "13000"
+    }
+  ]
+}
