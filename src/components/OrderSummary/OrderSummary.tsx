@@ -1,19 +1,10 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import style from './orderSummary.module.scss';
-import { useRouter } from 'next/navigation';
-import menuJson from '@/data/menu.json';
 
 const OrderSummary = ({ data, totalPrice }: any) => {
   const [summaryOpen, setSummaryOpen] = useState(false);
-  const { push } = useRouter();
-  const menuPrices = menuJson.prices;
-  const tripPrices = menuJson.trips;
-
-  useEffect(() => {
-    if (!localStorage.getItem('info')) return push('/');
-  }, []);
 
   return (
     <section className={`${summaryOpen ? style.open : ''} ${style.summary}`}>
@@ -36,7 +27,7 @@ const OrderSummary = ({ data, totalPrice }: any) => {
 
           <span>
             <span className={style.price}>
-              {tripPrices.find((x) => x.title === data.destination)?.price}
+              {data.tripPrice.toLocaleString().replaceAll(',', ' ')}
             </span>
             ,- Nok
           </span>
@@ -54,14 +45,7 @@ const OrderSummary = ({ data, totalPrice }: any) => {
 
             <span>
               <span className={style.price}>
-                {menuPrices.find((x) => x.title === item.title)?.price
-                  ? (
-                      (menuPrices.find((x) => x.title === item.title)
-                        ?.price as any) * item.quantity
-                    )
-                      .toLocaleString()
-                      .replaceAll(',', ' ')
-                  : 'Error'}
+                {item.totalPrice.toLocaleString().replaceAll(',', ' ')}
               </span>
               ,- Nok
             </span>

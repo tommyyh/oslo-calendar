@@ -2,48 +2,29 @@ import CheckoutForm from '@/components/CheckoutForm/CheckoutForm';
 import { cookies } from 'next/headers';
 import Stripe from 'stripe';
 import menuJson from '@/data/menu.json';
+import { prisma } from '@/lib/prisma';
+import { redirect } from 'next/navigation';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
 const Checkout = async () => {
   const menuPrices = menuJson.prices;
   const tripPrices = menuJson.trips;
-  const data = JSON.parse(cookies().get('session')?.value!);
-  let totalPrice = 0;
+  const id = JSON.parse(cookies().get('session')?.value!);
+  const data = await prisma.reservation.findUnique({
+    where: { id },
+    include: { addedItems: true },
+  });
 
-  const calculatePrice = () => {
-    data.addedItems.forEach((item: any) => {
-      const foundItem = menuPrices.find(
-        (menuItem) => menuItem.title === item.title
-      );
+  // Check if reservation is valid
+  if (!data?.totalPrice) throw Error('Reservation was not found');
 
-      if (foundItem) {
-        // Found the item, now calculate the price based on quantity
-        totalPrice += parseInt(foundItem.price) * item.quantity;
-      } else {
-        console.log(`Item not found`);
-      }
-    });
+  let totalPrice = data.totalPrice;
 
-    // Add trip price
-    const foundTrip = tripPrices.find(
-      (trip) => trip.title === data.destination
-    );
+  // Check if the price is too small for stripe
+  if (totalPrice < 10) throw Error('Something went wrong with pricing');
 
-    if (foundTrip) {
-      const tripPrice = parseInt(foundTrip.price);
-
-      totalPrice += tripPrice;
-    } else {
-      console.log(`Trip not found`);
-    }
-  };
-
-  calculatePrice();
-
-  // Payment
-  if (totalPrice < 10) return;
-
+  // Create payment intent
   const paymentIntent = await stripe.paymentIntents.create({
     amount: totalPrice * 100, // smallest unit -> so * 100 - to get real value
     currency: 'NOK',

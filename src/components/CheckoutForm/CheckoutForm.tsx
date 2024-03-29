@@ -12,6 +12,7 @@ import Nav from '../Nav/Nav';
 import style from './checkoutForm.module.scss';
 import OrderSummary from '../OrderSummary/OrderSummary';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 type CheckoutFormProps = {
   clientSecret: string;
@@ -43,20 +44,21 @@ const CheckoutForm = ({
         <OrderSummary data={data} totalPrice={totalPrice} />
 
         <Elements options={{ clientSecret }} stripe={stripePromise}>
-          <Form totalPrice={totalPrice} />
+          <Form totalPrice={totalPrice} data={data} />
         </Elements>
       </div>
     </div>
   );
 };
 
-const Form = ({ totalPrice }: any) => {
+const Form = ({ totalPrice, data }: any) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
   const stripe = useStripe();
+  const { push } = useRouter();
   const elements = useElements();
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     if (stripe == null || elements == null) return;
@@ -64,26 +66,47 @@ const Form = ({ totalPrice }: any) => {
     setLoading(true);
 
     // Confirm payment
-    stripe
-      .confirmPayment({
+    try {
+      const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         confirmParams: {
           return_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/checkout/success`,
+          receipt_email: data.email,
         },
-      })
-      .then(({ error }) => {
-        if (error.type === 'card_error' || error.type === 'validation_error') {
-          setError(error.message);
-        } else {
-          setError('Something went wrong. Please try again or contact us');
-        }
-      })
-      .finally(() => {
-        // Clear local storage
-        localStorage.removeItem('info');
-
-        setLoading(false);
+        redirect: 'if_required',
       });
+
+      if (error?.type === 'card_error' || error?.type === 'validation_error') {
+        setError(error.message);
+      } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+        // SUCCESS
+        try {
+          const res: any = await fetch('/api/save', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          });
+
+          const resData = await res.json();
+
+          // Handle response
+          if (resData.status === 'success') {
+            // Delete local storage
+            localStorage.removeItem('info');
+          }
+        } catch (e) {}
+
+        return push(`/checkout/success?payment_intent=${paymentIntent.id}`);
+      } else {
+        setError('Noe gikk galt, prøv igjen eller kontakt oss.');
+      }
+
+      setLoading(false);
+    } catch {
+      setError('Noe gikk galt, prøv igjen eller kontakt oss.');
+    }
   };
 
   return (

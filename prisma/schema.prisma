@@ -1,0 +1,45 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_CONNECTION")
+}
+
+model Reservation {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name  String
+  email String
+  tel   String
+  msg   String
+
+  type        String
+  people      Int
+  destination String
+  status      Boolean     @default(true)
+  finished    Boolean     @default(false)
+  addedItems  AddedItem[]
+
+  length     Int
+  tripPrice  Float
+  totalPrice Float
+
+  date DateTime
+  time String
+}
+
+model AddedItem {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  title      String
+  quantity   Int
+  price      Float
+  totalPrice Float
+
+  reservationID String      @db.ObjectId
+  reservation   Reservation @relation(fields: [reservationID], references: [id])
+}

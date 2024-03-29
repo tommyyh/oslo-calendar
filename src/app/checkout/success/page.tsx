@@ -10,20 +10,28 @@ const Success = async ({
 }: {
   searchParams: { payment_intent: string };
 }) => {
-  if (!searchParams.payment_intent) return notFound();
+  let isSuccess;
 
-  const paymentIntent = await stripe.paymentIntents.retrieve(
-    searchParams.payment_intent
-  );
+  try {
+    if (!searchParams.payment_intent) return notFound();
 
-  const isSuccess = paymentIntent.status === 'succeeded';
+    const paymentIntent = await stripe.paymentIntents.retrieve(
+      searchParams.payment_intent
+    );
+
+    isSuccess = paymentIntent.status === 'succeeded';
+  } catch {
+    isSuccess = false;
+  }
 
   return (
     <div className={style.main}>
       <Nav formStage={5} />
 
       <div className={style.right}>
-        <h5>{isSuccess ? 'Alt i orden!' : 'Det oppstod et problem'}</h5>
+        <h5 style={isSuccess ? {} : { color: '#df1b41' }}>
+          {isSuccess ? 'Alt i orden!' : 'Det oppstod et problem'}
+        </h5>
 
         <h1>
           {isSuccess ? 'Reisen din ble bestilt med suksess' : 'Noe gikk galt'}
