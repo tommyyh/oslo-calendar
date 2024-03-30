@@ -120,3 +120,117 @@ $height: 33rem;
     }
   }
 }
+
+@media all and (max-width: 1024px) {
+  $height: 33rem;
+
+  .main {
+    display: initial;
+    
+    width: 100%;
+    min-height: initial;
+    max-height: initial;
+    padding: 25% var(--padding) 5rem var(--padding);
+
+    box-shadow: initial;
+    border-radius: initial;
+  }
+
+
+
+
+  // Calendar - right side
+  .cont {
+    max-height: initial;
+    overflow-y: initial;
+
+    position: relative;
+
+    /* width */
+    &::-webkit-scrollbar {
+      width: 0.2rem;
+    }
+
+  }
+
+  // First stage
+  .cont1 {
+    display: initial;
+    padding: initial;
+  }
+
+
+
+  
+  // Times
+  .timesCont {
+    min-height: 71.5625rem;
+  }
+
+  .times {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 48% 48%);
+    justify-content: space-between;
+
+    padding: 0 var(--padding);
+    margin: 3rem 0 0 0;
+    max-height: initial;
+    overflow-y: initial;
+    width: 100%;
+    height: fit-content;
+
+    /* width */
+    &::-webkit-scrollbar {
+      width: 0.4rem;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1; 
+    }
+    
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: #c2c2c2; 
+      border-radius: 50rem;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: #9f9f9f; 
+    }
+
+    li {
+      width: 100%;
+      min-height: 2.815rem;
+      max-height: 2.815rem;
+      list-style-type: none;
+      margin: 0.95rem 0 0 0;
+
+      button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        width: 100%;
+        height: 100%;
+        margin: 0;
+
+        font-size: 1rem;
+        cursor: pointer;
+        background: transparent;
+        border: 0.0625rem solid var(--accent2);
+        border-radius: 0.3rem;
+        color: var(--accent2);
+        font-weight: 600;
+        transition: 210ms ease;
+
+        &:hover {
+          background: var(--accent2);
+          color: #fff;
+        }
+      }
+    }
+  }
+
+}

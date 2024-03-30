@@ -32,3 +32,45 @@ body {
 button, input, select, textarea {
   font-family: inherit;
 }
+
+@media all and (max-width: 1024px) {
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+  :root {
+    --primary: #fff;
+    --second: #000;
+    --accent1: #0F1939;
+    --accent2: #b69646;
+    --accent3: #D9D5CB;
+    --accent4: #0069FF;
+  
+    --border: 0.0625rem solid #eceef2;
+    --error: #df1b41;
+    --success: #03ff7d;
+  
+    --padding: 1.5rem;
+  }
+  
+  body {
+    display: initial;
+    width: initial;
+    height: initial;
+
+    padding: 0 var(--padding);
+  }
+  
+  button, input, select, textarea {
+    font-family: inherit;
+  }
+
+}
+
+@media (min-width: 700px) and (max-width: 1024px) {
+  html {
+    font-size: 19px;
+  }
+}

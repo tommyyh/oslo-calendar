@@ -10,6 +10,7 @@ import Menu from '@/containers/menu/main/page';
 import Form from '@/containers/form/page';
 import Nav from '@/components/Nav/Nav';
 import Loading from '@/components/Loading/Loading';
+import { useMediaQuery } from 'react-responsive';
 
 const convertToDate = ({ day, month, year }: any) => {
   return new Date(year, month - 1, day);
@@ -24,6 +25,9 @@ const Main = () => {
   const [loading, setLoading] = useState(true);
   const [special, setSpecial] = useState(false);
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
+  const isDesktop = useMediaQuery({
+    query: '(min-width: 1025px)',
+  });
   const [selectedDate, setSelectedDate] = useState(
     add(firstAvailableDate, { days: 1 })
   );
@@ -149,35 +153,72 @@ const Main = () => {
         ) : (
           <>
             {/* Stage 1 */}
-            {info.stage === 1 && (
+            {isDesktop ? (
               <>
-                <Calendar
-                  value={currentDate}
-                  onChange={setCurrentDate}
-                  selectedDate={selectedDate}
-                  setSelectedDate={setSelectedDate}
-                  firstAvailableDate={firstAvailableDate}
-                  lastAvailableDate={lastAvailableDate}
-                  info={info}
-                />
-                {!timesLoading ? (
-                  availableTimes[0] ? (
-                    <ul className={style.times}>
-                      {availableTimes.map((x) => (
-                        <li key={v4()}>
-                          <button onClick={() => chooseTime(x)}>{x}</button>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p style={{ margin: '0.5rem 0 0 1.9rem' }}>
-                      Ingen tider er tilgjengelige denne dagen.
-                    </p>
-                  )
-                ) : (
-                  <Loading />
+                {info.stage === 1 && (
+                  <>
+                    <Calendar
+                      value={currentDate}
+                      onChange={setCurrentDate}
+                      selectedDate={selectedDate}
+                      setSelectedDate={setSelectedDate}
+                      firstAvailableDate={firstAvailableDate}
+                      lastAvailableDate={lastAvailableDate}
+                      info={info}
+                    />
+                    {!timesLoading ? (
+                      availableTimes[0] ? (
+                        <ul className={style.times}>
+                          {availableTimes.map((x) => (
+                            <li key={v4()}>
+                              <button onClick={() => chooseTime(x)}>{x}</button>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p style={{ margin: '0.5rem 0 0 1.9rem' }}>
+                          Ingen tider er tilgjengelige denne dagen.
+                        </p>
+                      )
+                    ) : (
+                      <Loading />
+                    )}
+                  </>
                 )}
               </>
+            ) : (
+              info.stage === 1 && (
+                <div className={style.timesCont}>
+                  <>
+                    <Calendar
+                      value={currentDate}
+                      onChange={setCurrentDate}
+                      selectedDate={selectedDate}
+                      setSelectedDate={setSelectedDate}
+                      firstAvailableDate={firstAvailableDate}
+                      lastAvailableDate={lastAvailableDate}
+                      info={info}
+                    />
+                    {!timesLoading ? (
+                      availableTimes[0] ? (
+                        <ul className={style.times}>
+                          {availableTimes.map((x) => (
+                            <li key={v4()}>
+                              <button onClick={() => chooseTime(x)}>{x}</button>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p style={{ margin: '0.5rem 0 0 1.9rem' }}>
+                          Ingen tider er tilgjengelige denne dagen.
+                        </p>
+                      )
+                    ) : (
+                      <Loading />
+                    )}
+                  </>
+                </div>
+              )
             )}
             {/* Stage 2 */}
             {info.stage === 2 && (

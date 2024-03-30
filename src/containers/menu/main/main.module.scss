@@ -48,3 +48,64 @@
   border-radius: 0.2rem;
   cursor: pointer;
 }
+
+@media all and (max-width: 1024px) {
+  .main {
+    position: initial;
+  
+    h1 {
+      margin: 0 0 -1.5rem 0;
+  
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+  }
+  
+  .continue {
+    display: flex;
+    justify-content: flex-end;
+
+    width: 100%;
+    top: 1rem;
+    margin: 2rem 0 0 0;
+    position: sticky;
+    z-index: 8000;
+
+    button {
+      z-index: 8000;
+      position: initial;
+      padding: 0.52rem 1.55rem;
+    
+      font-size: 1rem;
+      border-radius: 0.25rem;
+      border: none;
+      background: var(--accent4);
+      cursor: pointer;
+      color: #fff;
+      transition: 300ms ease;
+  
+      &:hover {
+        background: #5a9eff;
+      }
+    }
+  }
+  
+  .goBack {
+    margin: 3rem 0 0 0;
+  }
+  
+  .clearBtn {
+    right: 0;
+    padding: 0.5rem 1.4rem;
+    margin: 1rem 0 0 0;
+  
+    font-size: 0.85rem;
+    background: var(--accent3);
+    border: none;
+    transition: 300ms ease;
+    font-weight: 500;
+    border-radius: 0.2rem;
+    cursor: pointer;
+  }
+
+}

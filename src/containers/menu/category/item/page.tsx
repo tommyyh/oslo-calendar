@@ -61,7 +61,7 @@ const Item = ({ item, setInfo, info }: PropsType) => {
 
   return (
     <li className={style.item}>
-      <span>{item.title}</span>
+      <span className={style.desc}>{item.title}</span>
 
       <div className={style.select}>
         <span>

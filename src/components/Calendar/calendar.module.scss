@@ -36,3 +36,45 @@
 .changeMonth {
   grid-column: span 2 / span 2;
 }
+
+@media all and (max-width: 1024px) {
+  .calendar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  
+    height: 100%;
+    width: 100%;
+    padding: 3rem var(--padding) 0 var(--padding);
+  
+    h5 {
+      margin: 2rem 0 0 0;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--accent2);
+    }
+  }
+  
+  .inner {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .weeks {
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  .currentMonth {
+    grid-column: span 3 / span 3;
+  }
+  
+  .changeMonth {
+    grid-column: span 2 / span 2;
+  }
+
+}

@@ -76,3 +76,86 @@ $height: 33rem;
     width: 0.5rem;
   }
 }
+
+@media all and (max-width: 1024px) {
+  $height: 33rem;
+
+  .main {
+    display: initial;
+    
+    width: 100%;
+    min-height: initial;
+    max-height: initial;
+    padding: 25% var(--padding) 0 var(--padding);
+
+    box-shadow: initial;
+    border-radius: initial;
+  }
+  
+  
+  
+  .right {
+    overflow-y: scroll;
+    padding: var(--padding);
+    margin: 2.5rem 0 8rem 0;
+  
+    h1 {
+      font-size: 1.65rem;
+      font-weight: 600;
+    }
+  
+    p {
+      margin: 0.8rem 0 3rem 0;
+  
+      font-size: 0.9rem;
+      font-weight: 400;
+      line-height: 165%;
+    }
+  
+    h5 {
+      margin: 0 0 0.3rem 0;
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--accent4);
+    }
+  
+    /* width */
+    &::-webkit-scrollbar {
+      width: 0.4rem;
+    }
+  
+    /* Track */
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1; 
+    }
+    
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: #c2c2c2; 
+      border-radius: 50rem;
+    }
+  
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: #9f9f9f; 
+    }
+  }
+  
+  
+  // Go back
+  .goBack {
+    width: fit-content;
+  
+    font-size: 1rem;
+    font-weight: 400;
+    text-decoration: underline;
+    cursor: pointer;
+    color: var(--second);
+  
+    svg {
+      margin: 0 0.5rem -0.05rem 0;
+      width: 0.5rem;
+    }
+  }
+
+}

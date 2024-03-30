@@ -57,3 +57,66 @@
   margin: 0 0 0 0.3rem;
   color: var(--second);
 }
+
+@media all and (max-width: 1024px) {
+  .item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: initial;
+
+    margin: 1.9rem 0 0 0;
+
+    span {
+      font-size: 1.05rem;
+    }
+
+    select {
+      width: 2.95rem;
+      height: 1.95rem;
+      margin: 0.56rem 0 0 0;
+
+      background: #eeeff0;
+      border: none;
+      border-radius: 0.25rem;
+
+      cursor: pointer;
+
+      /* width */
+      &::-webkit-scrollbar {
+        width: 0.4rem;
+      }
+    
+      /* Track */
+      &::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+      }
+      
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        background: #c2c2c2; 
+        border-radius: 50rem;
+      }
+    
+      /* Handle on hover */
+      &::-webkit-scrollbar-thumb:hover {
+        background: #9f9f9f; 
+      }
+    }
+  }
+
+  .select {
+    font-size: 1.15rem;
+    color: var(--accent4);
+    font-weight: 500;
+
+    span {
+      margin: 0 0.45rem 0 0;
+    }
+  }
+
+  .nok {
+    margin: 0 0 0 0.3rem;
+    color: var(--second);
+  }
+}

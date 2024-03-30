@@ -12,3 +12,21 @@
     width: 0.5rem;
   }
 }
+
+@media all and (max-width: 1024px) {
+  // GO back
+  .goBack {
+    width: fit-content;
+
+    font-size: 1.15rem;
+    font-weight: 400;
+    text-decoration: underline;
+    cursor: pointer;
+
+    svg {
+      margin: 0 0.5rem -0.085rem 0;
+      width: 0.5rem;
+    }
+  }
+
+}

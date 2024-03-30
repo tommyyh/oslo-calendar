@@ -92,3 +92,100 @@ $height: 33rem;
     width: 0.5rem;
   }
 }
+
+@media all and (max-width: 1024px) {
+  $height: 33rem;
+
+  .main {
+    display: initial;
+    
+    width: 100%;
+    min-height: initial;
+    max-height: initial;
+    padding: 25% var(--padding) 9rem var(--padding);
+
+    box-shadow: initial;
+    border-radius: initial;
+  }
+
+
+  .right {
+    overflow-y: scroll;
+    padding: var(--padding);
+    
+    /* width */
+    &::-webkit-scrollbar {
+      width: 0.4rem;
+    }
+  
+    /* Track */
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1; 
+    }
+    
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: #c2c2c2; 
+      border-radius: 50rem;
+    }
+  
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: #9f9f9f; 
+    }
+  }
+  
+  
+  
+  // Form
+  .form {
+    margin: 3rem 0 0 0;
+  }
+  
+  
+  .payBtn {
+    width: 100%;
+    height: 2.65rem;
+    margin: 1rem 0 0 0;
+  
+    border-radius: 0.2rem;
+    border: none;
+    background: var(--accent4);
+    font-weight: 500;
+    color: #fff;
+    font-size: 0.925rem;
+    cursor: pointer;
+    transition: 250ms ease;
+  
+    &:hover {
+      background: #398cff;
+    }
+  }
+  
+  .error {
+    margin: 0 0 0.89rem 0;
+  
+    color: var(--error);
+    font-size: 0.9rem;
+  }
+  
+  
+  
+  // Go back
+  .goBack {
+    width: fit-content;
+  
+    font-size: 1rem;
+    font-weight: 400;
+    text-decoration: underline;
+    cursor: pointer;
+    color: var(--second);
+  
+    svg {
+      margin: 0 0.5rem -0.05rem 0;
+      width: 0.5rem;
+    }
+  }
+
+
+}
