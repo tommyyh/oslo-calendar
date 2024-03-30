@@ -65,6 +65,7 @@ $height: 33rem;
   margin: 0 0 0 2rem;
   max-height: calc($height - var(--padding) * 2);
   overflow-y: scroll;
+  height: fit-content;
 
   /* width */
   &::-webkit-scrollbar {
@@ -88,15 +89,19 @@ $height: 33rem;
   }
 
   li {
+    width: 6.2rem;
+    min-height: 2.815rem;
+    max-height: 2.815rem;
     list-style-type: none;
+    margin: 0 0 0.8rem 0;
 
     button {
       display: flex;
       align-items: center;
       justify-content: center;
       
-      width: 6rem;
-      height: 2.815rem;
+      width: 100%;
+      height: 100%;
       margin: 0.3rem;
 
       font-size: 1rem;

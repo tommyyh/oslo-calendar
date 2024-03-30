@@ -8,9 +8,15 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 const Success = async ({
   searchParams,
 }: {
-  searchParams: { payment_intent: string };
+  searchParams: {
+    payment_intent: string;
+    smsStatus: string;
+    mailStatus: string;
+  };
 }) => {
   let isSuccess;
+  let smsSucceeded = searchParams?.smsStatus === 'success' ? true : false;
+  let mailSucceeded = searchParams?.mailStatus === 'success' ? true : false;
 
   try {
     if (!searchParams.payment_intent) return notFound();
@@ -29,7 +35,7 @@ const Success = async ({
       <Nav formStage={5} />
 
       <div className={style.right}>
-        <h5 style={isSuccess ? {} : { color: '#df1b41' }}>
+        <h5 style={isSuccess ? { color: '#03ff7d' } : { color: '#df1b41' }}>
           {isSuccess ? 'Alt i orden!' : 'Det oppstod et problem'}
         </h5>
 
@@ -40,6 +46,18 @@ const Success = async ({
           {isSuccess
             ? 'Du vil snart motta en e-postbekreftelse og en SMS-bekreftelse! Hvis du ikke mottar den i løpet av de neste 12 timene, må du kontakte oss, så fikser vi det.'
             : 'Vi beklager, men noe gikk galt da du bestilte reisen. Hvis kortet ditt likevel ble belastet, kan du sende oss en melding, så refunderer vi beløpet eller bestiller reisen på nytt.'}
+        </p>
+
+        <p className={style.smsStatus}>
+          {smsSucceeded
+            ? '✅📲 Vi har sendt deg en bekreftelse på telefonnummeret ditt. Hvis du ikke har mottatt noe, kan du sjekke at du har oppgitt riktig telefonnummer eller kontakte oss.'
+            : '❌📲 Noe gikk galt da vi sendte deg en bekreftelse til telefonnummeret ditt. Kontakt oss for å løse problemet.'}
+        </p>
+
+        <p className={style.smsStatus}>
+          {mailSucceeded
+            ? "✅📩 We also sent you a confirmation on your submitted email address. If you haven't received anything, contact us and we will resolve it."
+            : '❌📩 Something went wrong when we tried to send you an email confirmation. Either something went wrong on our side or you enter the wrong email address. Contact us and we will resolve it.'}
         </p>
 
         <a href={'/'} className={style.goBack}>

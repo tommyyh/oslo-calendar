@@ -28,7 +28,7 @@ model Reservation {
   tripPrice  Float
   totalPrice Float
 
-  date DateTime
+  date String
   time String
 }
 
@@ -41,5 +41,5 @@ model AddedItem {
   totalPrice Float
 
   reservationID String      @db.ObjectId
-  reservation   Reservation @relation(fields: [reservationID], references: [id])
+  reservation   Reservation @relation(fields: [reservationID], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }

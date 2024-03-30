@@ -8,8 +8,6 @@ import menuJson from '@/data/menu.json';
 export async function POST(request: Request) {
   try {
     const { name, email, tel, msg, type, people, length, destination, date, time, addedItems } = await request.json();
-    const [day, month, year] = date.split('.')
-    const reconstructedDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
     const menuPrices = menuJson.prices;
     const tripPrices = menuJson.trips;
 
@@ -42,7 +40,7 @@ export async function POST(request: Request) {
         people: parseInt(people),
         length: parseInt(length),
         destination,
-        date: reconstructedDate,
+        date,
         time,
         finished: false, // Update to true after successfully paying
         tripPrice,

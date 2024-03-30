@@ -22,6 +22,7 @@ const Main = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [timesLoading, setTimesLoading] = useState(true);
   const [loading, setLoading] = useState(true);
+  const [special, setSpecial] = useState(false);
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
   const [selectedDate, setSelectedDate] = useState(
     add(firstAvailableDate, { days: 1 })
@@ -49,25 +50,41 @@ const Main = () => {
   // Get the end of November
   const lastAvailableDate = convertToDate({ year: 2024, month: 12, day: 1 });
 
+  // Get available hours
   useEffect(() => {
     setTimesLoading(true);
 
-    const times = timesJson.times;
-    const disabledTimes = [
-      '9:30',
-      '10:00',
-      '10:30',
-      '11:00',
-      '11:30',
-      '12:00',
-      '12:30',
-    ];
-    const toRemove = new Set(disabledTimes); // Set -> work easier
-    const remainingTimes = times.filter((x) => !toRemove.has(x));
+    // Check for a special day
+    const specialDays = timesJson.specialDays;
+    const chosenDate = `${selectedDate.getDate()}.${
+      selectedDate.getMonth() + 1
+    }.${selectedDate.getFullYear()}`;
+    const isSpecial = specialDays.find((x) => x === chosenDate);
 
-    setAvailableTimes(remainingTimes);
+    !isSpecial ? setSpecial(false) : setSpecial(true);
 
-    setTimesLoading(false);
+    (async () => {
+      const url = isSpecial ? '/api/special-hours' : '/api/disabled-hours';
+
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+          `${selectedDate.getDate()}.${
+            selectedDate.getMonth() + 1
+          }.${selectedDate.getFullYear()}`
+        ),
+      });
+
+      // Manage available times
+      const { availableTimes } = await res.json();
+
+      setAvailableTimes(availableTimes);
+
+      setTimesLoading(false);
+    })();
   }, [selectedDate]);
 
   // Save user data in case of refresh
@@ -144,13 +161,19 @@ const Main = () => {
                   info={info}
                 />
                 {!timesLoading ? (
-                  <ul className={style.times}>
-                    {availableTimes.map((x) => (
-                      <li key={v4()}>
-                        <button onClick={() => chooseTime(x)}>{x}</button>
-                      </li>
-                    ))}
-                  </ul>
+                  availableTimes[0] ? (
+                    <ul className={style.times}>
+                      {availableTimes.map((x) => (
+                        <li key={v4()}>
+                          <button onClick={() => chooseTime(x)}>{x}</button>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p style={{ margin: '0.5rem 0 0 1.9rem' }}>
+                      Ingen tider er tilgjengelige denne dagen.
+                    </p>
+                  )
                 ) : (
                   <Loading />
                 )}
@@ -162,7 +185,12 @@ const Main = () => {
             )}
             {/* Stage 3 */}
             {info.stage === 3 && (
-              <Form setInfo={setInfo} info={info} setFormStage={setFormStage} />
+              <Form
+                setInfo={setInfo}
+                info={info}
+                setFormStage={setFormStage}
+                special={special}
+              />
             )}
           </>
         )}

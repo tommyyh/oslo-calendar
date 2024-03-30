@@ -95,14 +95,40 @@ const Form = ({ totalPrice, data }: any) => {
           if (resData.status === 'success') {
             // Delete local storage
             localStorage.removeItem('info');
+
+            // Send sms
+            const smsRes: any = await fetch('/api/send-confirmation', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+            });
+
+            // Send mail
+            const mailRes: any = await fetch('/api/send-mail', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+            });
+
+            const smsStatus = await smsRes.json();
+            const mailStatus = await mailRes.json();
+
+            return push(
+              `/checkout/success?smsStatus=${smsStatus.status}&mailStatus=${mailStatus.status}&payment_intent=${paymentIntent.id}`
+            );
           }
-        } catch (e) {}
+        } catch (e) {
+          console.log(e);
+        }
 
         return push(`/checkout/success?payment_intent=${paymentIntent.id}`);
       } else {
         setError('Noe gikk galt, prøv igjen eller kontakt oss.');
       }
-
       setLoading(false);
     } catch {
       setError('Noe gikk galt, prøv igjen eller kontakt oss.');

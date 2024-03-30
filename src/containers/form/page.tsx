@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import style from './form.module.scss';
 import GoBack from '@/components/GoBack/GoBack';
-import times from '@/data/times.json';
 import { useRouter } from 'next/navigation';
+import libphonenumber from 'google-libphonenumber';
 
 type PropsType = {
   setInfo: any;
   info: any;
   setFormStage: any;
+  special: boolean;
 };
 
+// Validations
 const validateEmail = (email: string) => {
   return String(email)
     .toLowerCase()
@@ -18,23 +20,34 @@ const validateEmail = (email: string) => {
     );
 };
 
-const Form = ({ setInfo, info, setFormStage }: PropsType) => {
+// Phone validation
+const phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
+
+const isValidPhoneNumber = (phoneNumber: string) => {
+  // Remove spaces from the phone number
+  const cleanedPhoneNumber = phoneNumber.replaceAll(' ', '');
+
+  try {
+    const number = phoneUtil.parse(cleanedPhoneNumber);
+
+    return phoneUtil.isValidNumber(number);
+  } catch (error) {
+    return false; // Invalid phone number format
+  }
+};
+
+const ERROR_COLOR = '#df1b41';
+
+// Component
+const Form = ({ setInfo, info, setFormStage, special }: PropsType) => {
   const [error, setError] = useState('');
-  const [special, setSpecial] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [invalid, setInvalid] = useState({
+    name: false,
+    email: false,
+    tel: false,
+  });
   const { push } = useRouter();
-
-  // Check if its a special day
-  useEffect(() => {
-    const specialDays = times.specialDays;
-    const isSpecial = specialDays.find((x) => x === info.date);
-
-    if (!isSpecial) {
-      setSpecial(false);
-    } else {
-      setSpecial(true);
-    }
-  }, []);
 
   const onChange = (e: any) => {
     const value = e.target.value;
@@ -50,12 +63,27 @@ const Form = ({ setInfo, info, setFormStage }: PropsType) => {
     const { name, email, tel } = info;
 
     if (!name || !email || !tel) {
+      !name && setInvalid({ ...invalid, name: true });
+      !email && setInvalid({ ...invalid, email: true });
+      !tel && setInvalid({ ...invalid, tel: true });
+      setError('Vennligst skriv inn alle feltene med en *.');
       setLoading(false);
-      return setError('Vennligst skriv inn alle feltene med en *.');
+
+      return;
     }
     if (!validateEmail(email)) {
+      setInvalid({ ...invalid, email: true });
+      setError('Vennligst skriv inn en gyldig e-postadresse');
       setLoading(false);
-      return setError('Vennligst skriv inn en gyldig e-postadresse');
+
+      return;
+    }
+    if (!isValidPhoneNumber(tel)) {
+      setInvalid({ ...invalid, tel: true });
+      setError('Vennligst skriv inn en gyldig telefonnummer (+47...)');
+      setLoading(false);
+
+      return;
     }
 
     try {
@@ -91,7 +119,12 @@ const Form = ({ setInfo, info, setFormStage }: PropsType) => {
 
           {/* Name */}
           <div className={style.input}>
-            <label htmlFor="name">Navn *</label>
+            <label
+              style={invalid.name ? { color: ERROR_COLOR } : {}}
+              htmlFor="name"
+            >
+              Navn *
+            </label>
 
             <div>
               <input
@@ -100,14 +133,24 @@ const Form = ({ setInfo, info, setFormStage }: PropsType) => {
                 id="name"
                 name="name"
                 onChange={(e) => onChange(e)}
+                onFocus={() => {
+                  setError('');
+                  setInvalid({ ...invalid, name: false });
+                }}
                 value={info.name}
+                style={invalid.name ? { borderColor: ERROR_COLOR } : {}}
               />
             </div>
           </div>
 
           {/* Email */}
           <div className={style.input}>
-            <label htmlFor="email">E-post *</label>
+            <label
+              style={invalid.email ? { color: ERROR_COLOR } : {}}
+              htmlFor="email"
+            >
+              E-post *
+            </label>
 
             <div>
               <input
@@ -116,14 +159,24 @@ const Form = ({ setInfo, info, setFormStage }: PropsType) => {
                 id="email"
                 name="email"
                 onChange={(e) => onChange(e)}
+                onFocus={() => {
+                  setError('');
+                  setInvalid({ ...invalid, email: false });
+                }}
                 value={info.email}
+                style={invalid.email ? { borderColor: ERROR_COLOR } : {}}
               />
             </div>
           </div>
 
           {/* Phone number */}
           <div className={style.input}>
-            <label htmlFor="tel">Telefonnummer *</label>
+            <label
+              style={invalid.tel ? { color: ERROR_COLOR } : {}}
+              htmlFor="tel"
+            >
+              Telefonnummer *
+            </label>
 
             <div>
               <input
@@ -132,7 +185,12 @@ const Form = ({ setInfo, info, setFormStage }: PropsType) => {
                 id="tel"
                 name="tel"
                 onChange={(e) => onChange(e)}
+                onFocus={() => {
+                  setError('');
+                  setInvalid({ ...invalid, tel: false });
+                }}
                 value={info.tel}
+                style={invalid.tel ? { borderColor: ERROR_COLOR } : {}}
               />
             </div>
           </div>
