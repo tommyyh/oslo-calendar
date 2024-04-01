@@ -85,6 +85,7 @@ const Main = () => {
 
         // Manage available times
         const { availableTimes } = await res.json();
+        console.log(availableTimes);
 
         setAvailableTimes(availableTimes);
 
