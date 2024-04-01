@@ -68,7 +68,7 @@ const Main = () => {
     !isSpecial ? setSpecial(false) : setSpecial(true);
 
     (async () => {
-      const url = isSpecial ? '/api/special-hourss' : '/api/disabled-hourss';
+      const url = isSpecial ? '/api/special-hours' : '/api/disabled-hours';
 
       const res = await fetch(url, {
         method: 'POST',
@@ -84,7 +84,6 @@ const Main = () => {
 
       // Manage available times
       const { availableTimes } = await res.json();
-      console.log(await res.json());
 
       setAvailableTimes(availableTimes);
 
