@@ -68,9 +68,7 @@ const Main = () => {
     !isSpecial ? setSpecial(false) : setSpecial(true);
 
     (async () => {
-      const url = isSpecial
-        ? 'https://oslo-calendar.vercel.app/api/special-hours'
-        : 'https://oslo-calendar.vercel.app/api/disabled-hours';
+      const url = isSpecial ? '/api/special-hourss' : '/api/disabled-hourss';
 
       const res = await fetch(url, {
         method: 'POST',
