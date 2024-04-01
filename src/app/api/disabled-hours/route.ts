@@ -53,5 +53,5 @@ export async function POST(request: Request) {
 
   const availableTimes = await getDisabledTimes(timesJson.times, disabledTimes);
   
-  return NextResponse.json({ availableTimes: [], d: availableTimes, f: timesJson.times, res: res })
+  return NextResponse.json({ availableTimes })
 }
