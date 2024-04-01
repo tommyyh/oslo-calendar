@@ -68,26 +68,30 @@ const Main = () => {
     !isSpecial ? setSpecial(false) : setSpecial(true);
 
     (async () => {
-      const url = isSpecial ? '/api/special-hours' : '/api/disabled-hours';
+      try {
+        const url = isSpecial ? '/api/special-hours' : '/api/disabled-hours';
 
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(
-          `${selectedDate.getDate()}.${
-            selectedDate.getMonth() + 1
-          }.${selectedDate.getFullYear()}`
-        ),
-      });
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(
+            `${selectedDate.getDate()}.${
+              selectedDate.getMonth() + 1
+            }.${selectedDate.getFullYear()}`
+          ),
+        });
 
-      // Manage available times
-      const { availableTimes } = await res.json();
+        // Manage available times
+        const { availableTimes } = await res.json();
 
-      setAvailableTimes(availableTimes);
+        setAvailableTimes(availableTimes);
 
-      setTimesLoading(false);
+        setTimesLoading(false);
+      } catch (e) {
+        console.log(e);
+      }
     })();
   }, [selectedDate]);
 

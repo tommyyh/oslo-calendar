@@ -36,23 +36,29 @@ const getDisabledTimes = (times: string[], takenTimes: string[]) => {
 };
 
 export async function POST(request: Request) {
-  const date = await request.json();
-  let disabledTimes: string[] = [];
-
-  const res = await prisma.reservation.findMany({
-    where: {
-      date: date,
-      finished: true
-    },
-  });
-
-  // Push disabled times
-  res.forEach(data => {
-    disabledTimes.push(data.time);
-  })
-
-  const availableTimes = await getDisabledTimes(timesJson.times, disabledTimes);
+  try {
+    const date = await request.json();
+    let disabledTimes: string[] = [];
   
+    const res = await prisma.reservation.findMany({
+      where: {
+        date: date,
+        finished: true
+      },
+    });
   
-  return NextResponse.json({ availableTimes })
+    // Push disabled times
+    res.forEach(data => {
+      disabledTimes.push(data.time);
+    })
+  
+    const availableTimes = await getDisabledTimes(timesJson.times, disabledTimes);
+    
+    
+    return NextResponse.json({ availableTimes })
+  } catch (e) {
+    console.log(e);
+
+    return NextResponse.json({ availableTimes: [] })
+  }
 }
