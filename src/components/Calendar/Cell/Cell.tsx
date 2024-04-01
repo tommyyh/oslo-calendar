@@ -1,20 +1,13 @@
 import React from 'react';
 import style from './cell.module.scss';
 
-interface Props extends React.PropsWithChildren {
-  className?: string;
-  isActive?: boolean;
-  onClick?: () => void;
-  isDisabled?: boolean;
-}
-
-const Cell: React.FC<Props> = ({
+const Cell = ({
   onClick,
   children,
   className,
   isActive = false,
   isDisabled,
-}) => {
+}: any) => {
   return (
     <div
       onClick={!isActive ? onClick : undefined}

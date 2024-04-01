@@ -10,7 +10,7 @@ const formatMAIL = (reservation: any) => {
   // Food items
   const formattedFoodItems = addedItems.map((item: any) => ` - ${item.quantity}x - ${item.title}:   ${item.totalPrice},- Nok`).join('\n');
 
-  return `Hei ${name}, din ${type} båttur til ${destination} er på ${date} kl. ${time}. Varighet: ${length} timer for ${people}  personer. Innsjekking 15 minutter tidligere. \n\n Det du har valgt på menyen: \n ${formattedFoodItems} \n\n\n Total pris: ${reservation.totalPrice} \n\n\n Har du spørsmål? Ta kontakt med oss.`
+  return `Hei ${name}, Din ${type} båttur til ${destination} er på ${date} kl. ${time}. Varighet: ${length} timer for ${people}  personer. Innsjekking 15 minutter tidligere. \n\n Det du har valgt på menyen: \n ${formattedFoodItems} \n\n\n Total pris: ${reservation.totalPrice} \n\n\n Har du spørsmål? Ta kontakt med oss.`
 }
 
 const formatMAILHtml = (reservation: any) => {
@@ -19,7 +19,7 @@ const formatMAILHtml = (reservation: any) => {
   // Food items
   const formattedFoodItems = addedItems.map((item: any) => `<li> - ${item.quantity}x - ${item.title}:   ${item.totalPrice},- Nok</li>`).join('<br>');
 
-  return `<h1>Hei ${name}</h1>, <br> <p>din ${type} båttur til <b>${destination}</b> er på <b>${date}</b> kl. <b>${time}</b>.<br> Varighet: ${length} timer for ${people}  personer. Innsjekking 15 minutter tidligere. <br><br> Det du har valgt på menyen:</p> <br> <ul>${formattedFoodItems}</ul> <br><br><br> <h2>Total pris: ${reservation.totalPrice},- Nok<h2/> <br><br><br> <p>Har du spørsmål? Ta kontakt med oss.</p>`
+  return `<h1>Hei ${name}</h1> <br> <p>Din ${type} båttur til <b>${destination}</b> er på <b>${date}</b> kl. <b>${time}</b>.<br> Varighet: ${length} timer for ${people}  personer. Innsjekking 15 minutter tidligere. <br><br> Det du har valgt på menyen:</p> <br> <ul>${formattedFoodItems}</ul> <br><br><br> <h2>Total pris: ${reservation.totalPrice},- Nok<h2/> <br><br><br> <p>Har du spørsmål? Ta kontakt med oss.</p>`
 }
 
 // Route
